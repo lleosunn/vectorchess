@@ -2,7 +2,7 @@ const BOARD_SIZE = 8;
 const MAX_HAND = 5;
 const VECTOR_VALUES = [-2, -1, 0, 1, 2];
 const SCALAR_VALUES = [-1, 2];
-const SPECIAL_SQUARES = [[2,2],[5,2],[2,5],[5,5]];
+const SPECIAL_SQUARES = [[3,2],[5,3],[4,5],[2,4]];
 const KING_DIRS = [[0,1],[0,-1],[1,0],[-1,0]];
 
 let state;
@@ -181,7 +181,7 @@ function drawCard(pileType) {
   if (state.gameOver) return;
   if (state.phase !== 'draw' && state.phase !== 'bonus-draw') return;
   const hand = currentHand();
-  if (hand.length >= MAX_HAND) return;
+  if (state.phase === 'draw' && hand.length >= MAX_HAND) return;
   const pile = pileType === 'vector' ? state.decks.vectors : state.decks.scalars;
   if (pile.length === 0) return;
   const card = pile.pop();
@@ -314,9 +314,7 @@ function executeMove(tx, ty, mode) {
   }
 
   if (isSpecialSquare(tx, ty)) {
-    const hand = currentHand();
-    const canDraw = hand.length < MAX_HAND &&
-      (state.decks.vectors.length > 0 || state.decks.scalars.length > 0);
+    const canDraw = state.decks.vectors.length > 0 || state.decks.scalars.length > 0;
     if (canDraw) {
       addLog('system', `✦ Special square! ${capitalize(player)} may draw a bonus card.`);
       state.phase = 'bonus-draw';

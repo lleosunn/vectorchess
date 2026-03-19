@@ -160,16 +160,15 @@ function renderCenter() {
   </div>`;
 
   if (isActive && state.phase === 'bonus-draw') {
-    const full = hand.length >= MAX_HAND;
     const noVec = state.decks.vectors.length === 0;
     const noScal = state.decks.scalars.length === 0;
     html += `<div class="bonus-draw-msg">✦ Landed on a special square!</div>`;
     html += `<h3>Bonus Draw</h3>
     <div class="draw-row">
-      <button class="draw-btn" onclick="drawCard('vector')" ${full || noVec ? 'disabled' : ''}>
+      <button class="draw-btn" onclick="drawCard('vector')" ${noVec ? 'disabled' : ''}>
         Vector<span class="pile-ct">${state.decks.vectors.length} left</span>
       </button>
-      <button class="draw-btn" onclick="drawCard('scalar')" ${full || noScal ? 'disabled' : ''}>
+      <button class="draw-btn" onclick="drawCard('scalar')" ${noScal ? 'disabled' : ''}>
         Scalar<span class="pile-ct">${state.decks.scalars.length} left</span>
       </button>
     </div>
